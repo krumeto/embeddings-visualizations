@@ -44,8 +44,8 @@ st.sidebar.title("Configuration")
 
 # Let the user select a pre-trained Sentence-Transformers model
 model_choices = [
-    "intfloat/multilingual-e5-small", # passage: 
     "sentence-transformers/static-similarity-mrl-multilingual-v1",
+    "intfloat/multilingual-e5-small", # passage: 
     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
     "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
     # very slow
