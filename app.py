@@ -9,9 +9,6 @@ from tokenizers import Tokenizer
 from streamlit_plotly_events import plotly_events
 from umap import UMAP
 
-st.write("Hello, World!")
-
-st.write(f"{np.array([2])}")
 # -------------------------------------------------------------------
 # Caching helpers
 # -------------------------------------------------------------------
@@ -45,13 +42,21 @@ st.sidebar.title("Configuration")
 
 # Let the user select a pre-trained Sentence-Transformers model
 model_choices = [
-    "sentence-transformers/static-retrieval-mrl-en-v1",
-    "sentence-transformers/all-MiniLM-L6-v2",
-    "Snowflake/snowflake-arctic-embed-s",
+    "intfloat/multilingual-e5-small", # passage: 
     "sentence-transformers/static-similarity-mrl-multilingual-v1",
+    "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    # very slow
+    "Snowflake/snowflake-arctic-embed-m-v2.0"
+    
 ]
 model_name = st.sidebar.selectbox("Select Sentence-Transformers model:", model_choices)
-
+if model_name == "Snowflake/snowflake-arctic-embed-m-v2.0":
+    st.write(f"Warning! {model_name} is a very big model and runs slowly on a CPU. This might take a long time!")
+    
+if model_name == "sentence-transformers/paraphrase-multilingual-mpnet-base-v2":
+    st.write(f"Warning! {model_name} is a relatively big model and runs slowly on a CPU. This might take a long time!")
+    
 # Allow the user to upload a CSV file
 uploaded_file = st.sidebar.file_uploader("Upload CSV with a 'text' column", type=["csv"])
 
