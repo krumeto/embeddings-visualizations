@@ -21,7 +21,9 @@ def load_model(model_name: str):
 def compute_embeddings(texts, model_name: str):
     """Compute (and cache) embeddings for a list of texts given a model."""
     model = load_model(model_name)
-    return model.encode(texts, show_progress_bar=True)
+    if model_name == "intfloat/multilingual-e5-small":
+        texts = ["passage: " + t for t in texts]
+    return model.encode(texts, show_progress_bar=True, trust_remote_code=True)
 
 @st.cache_data
 def reduce_to_2d(embeddings, n_neighbors=15, min_dist=0.1, random_state=42):
@@ -76,7 +78,9 @@ st.title("Document Embedding Visualizer (UMAP Edition)")
 if uploaded_file is not None:
     # Read the CSV into a pandas DataFrame
     df = pd.read_csv(uploaded_file)
-
+    if df.shape[0] > 500:
+        st.write("This is a relatively big dataset and embedding it might take awhile.")
+        
     # Check for the required column
     if "text" not in df.columns:
         st.error("Error: The uploaded CSV does not contain a 'text' column.")
