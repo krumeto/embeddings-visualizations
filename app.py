@@ -21,6 +21,8 @@ def load_model(model_name: str):
 def compute_embeddings(texts, model_name: str):
     """Compute (and cache) embeddings for a list of texts given a model."""
     model = load_model(model_name)
+    if "static" not in model_name:
+        model.max_seq_length = 512
     if model_name == "intfloat/multilingual-e5-small":
         texts = ["passage: " + t for t in texts]
     return model.encode(texts, show_progress_bar=True, trust_remote_code=True)
